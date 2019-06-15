@@ -32,7 +32,7 @@ def main():
     dirPath = str(args[1])
     qty = int(args[2])
 
-    saveDirPath = dirPath + './rotated'
+    saveDirPath = dirPath + '/rotated'
     if os.path.isdir(saveDirPath) == False:
         os.mkdir(saveDirPath)
 
