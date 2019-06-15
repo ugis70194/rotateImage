@@ -1,5 +1,5 @@
 from PIL import Image
-import sys
+import sys, os, os.path
 
 def addMargin(img):
     width, height = img.size
@@ -13,14 +13,14 @@ def addMargin(img):
 
     return addedMargin
 
-def rotateImage(img, deg, num, dirPath, fileName, ext, qty):
+def rotateImage(img, deg, num, saveDirPath, fileName, ext, qty):
     if num > qty: return 
 
     rotated = img.rotate(deg)
-    rotated.save(str(dirPath) + str(fileName) + str(num) + str(ext))
+    rotated.save(saveDirPath + '/' + fileName + str(num) + ext)
 
-    rotateImage(rotated, deg / 2, 2*num, dirPath, fileName, ext, qty)
-    rotateImage(rotated, -deg / 2, 2*num + 1, dirPath, fileName, ext, qty)
+    rotateImage(rotated, deg / 2, 2*num, saveDirPath, fileName, ext, qty)
+    rotateImage(rotated, -deg / 2, 2*num + 1, saveDirPath, fileName, ext, qty)
 
 def main():
     args = sys.argv
@@ -30,14 +30,27 @@ def main():
         return 
 
     dirPath = str(args[1])
-    fileName = str(args[2])
-    ext = fileName[-4:]
-    qty = int(args[3])
-    fileName = fileName[-len(fileName):-4:1]
+    qty = int(args[2])
 
-    img = Image.open(str(dirPath) + str(fileName) + str(ext))
-    img = addMargin(img)
+    saveDirPath = dirPath + './rotated'
+    if os.path.isdir(saveDirPath) == False:
+        os.mkdir(saveDirPath)
 
-    rotateImage(img, 180, 1, dirPath, fileName, ext, qty)
+    # 子ディレクトリを持つディレクトリの中身を走査する
+    for root, dirs, files in os.walk(dirPath) :
+        for dirName in dirs:
+            for fileName in files:
+
+                ext = fileName[-4:]
+                if ext != '.jpg' and ext != '.png' :
+                    break
+
+                fileName = fileName[-len(fileName):-4:1]
+
+                img = Image.open(dirPath + '/' + fileName + ext)
+                img = addMargin(img)
+
+                img.save(saveDirPath + '/' + fileName + ext)
+                rotateImage(img, 180, 1, saveDirPath, fileName, ext, qty)
 
 main()
