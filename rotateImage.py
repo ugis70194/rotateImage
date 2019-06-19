@@ -25,7 +25,7 @@ def rotateImage(img, deg, num, saveDirPath, fileName, ext, qty):
 def main():
     args = sys.argv
 
-    if len(args) < 4 :
+    if len(args) < 3 :
         print('Insufficient arguments', file=sys.stderr)
         return 
 
