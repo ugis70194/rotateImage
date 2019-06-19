@@ -3,8 +3,8 @@ import sys, os, os.path
 
 def addMargin(img):
     width, height = img.size
-    left = width // 5
-    top = height // 5
+    left = width // 4
+    top = height // 4
     newWidth = width + left*2
     newHeight = height + top*2
 
