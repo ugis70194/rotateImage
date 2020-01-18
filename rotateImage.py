@@ -30,14 +30,15 @@ def rotateImage(img, deg, num, saveDirPath, fileName, ext, qty, width, height):
 def main():
     args = sys.argv
 
-    if len(args) < 3 :
+    if len(args) < 4 :
         print('Insufficient arguments', file=sys.stderr)
         return 
 
     dirPath = str(args[1])
     qty = int(args[2])
+    dirName = str(args[3])
 
-    saveDirPath = dirPath + '/rotated'
+    saveDirPath = dirPath + '/' + dirName
     if os.path.isdir(saveDirPath) == False:
         os.mkdir(saveDirPath)
 
